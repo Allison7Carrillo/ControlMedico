@@ -16,8 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tabla_citas`
+-- Table structure for table `tabla_usuarios`
 --
+DROP TABLE IF EXISTS `tabla_usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tabla_usuarios` (
+  `id_usuario` int(11) NOT NULL,
+  `password` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE KEY `id_usuario_UNIQUE` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tabla_usuarios`
+--
+
+LOCK TABLES `tabla_usuarios` WRITE;
+/*!40000 ALTER TABLE `tabla_usuarios` DISABLE KEYS */;
+INSERT INTO `tabla_usuarios` VALUES (101010,'hola123'),(666999,'hola123');
+/*!40000 ALTER TABLE `tabla_usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 DROP TABLE IF EXISTS `tabla_citas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

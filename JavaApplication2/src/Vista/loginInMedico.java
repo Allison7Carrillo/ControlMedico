@@ -5,6 +5,13 @@
  */
 package Vista;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+import Controlador.controladorBD;
+import com.mysql.jdbc.MySQLConnection;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * 
@@ -14,10 +21,47 @@ public class loginInMedico extends javax.swing.JFrame {
     /**
      * Creates new form loginInMedico
      */
-    String User_Public ="admin";
-    String Password="admin";
+    
+    controladorBD cc= new controladorBD();
+    Connection con=cc.conex();
+    
     public loginInMedico() {
         initComponents();
+        
+    }
+    
+    public void ValidarAcceso(){
+        int resultado=0;
+        try {
+          String usuario=jTextNombre.getText();
+          String pass=String.valueOf(jPasswordField1.getPassword());
+          
+                    
+          String sql= "select * from tabla_usuarios where id_usuario= '"+usuario+"' and password='"+pass+"' ";
+        
+        
+          Statement st =con.createStatement();
+          ResultSet rs=st.executeQuery(sql);
+        
+          if(rs.next()){
+          resultado=1;
+          if(resultado==1){
+              System.out.println("Bienvenido al sistema");
+              vistaPrincipal form = new vistaPrincipal();
+              form.setVisible(true);
+              this.dispose();
+          }else{
+              System.out.println("Error en el acceso, vuelva a intentarlo");
+          }
+    
+          }else{
+          System.out.println("Error en el acceso, vuelva a intentarlo");
+          }
+          
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null,"Error en el acceso, vuelva a intentarlo" + e.getMessage());
+        }
         
     }
 
@@ -71,6 +115,12 @@ public class loginInMedico extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        jTextNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextNombreActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Usuario");
@@ -144,30 +194,16 @@ public class loginInMedico extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        ValidarAcceso();
+       
         
-        String User_Get;
-        String Pass_Get;
         
-        User_Get = jTextNombre.getText();
-        Pass_Get = jPasswordField1.getText();
-        
-        if(User_Get.equals(User_Public)){
-            if(Pass_Get.equals(Password)){
-                System.out.println("Bienvenidos");
-                vistaPrincipal vp = new vistaPrincipal();
-                vp.show();
-                this.dispose();
-                
-            }
-            else{
-                System.out.println("La contraseña no coincide.");
-            }
-        }
-        else{
-            System.out.println("Verifica tu usuario & contraseña");
-        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextNombreActionPerformed
 
     /**
      * @param args the command line arguments
