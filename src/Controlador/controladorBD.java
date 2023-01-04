@@ -9,6 +9,10 @@ package Controlador;
  *
  * @author joseluis.caamal
  */
+import Modelo.modeloUsuario;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,10 +20,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.util.Date;
+import java.util.Properties;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,6 +38,32 @@ public class controladorBD {
 /*Inciamos el constructor*/
 
      controladorLibrerias lv = new controladorLibrerias();
+     ControlLoogs clog = new ControlLoogs(); //Importo los logs
+     
+     public Connection openConnection() {
+        
+        try {
+            Properties propiedades = new Properties();
+            propiedades.load(new FileReader("src/Controlador/propiedades.properties"));
+            //Como obtener la información desde un archivo properties
+            String db_nam = propiedades.getProperty("nombreBD");
+            String use = propiedades.getProperty("user");
+            String pas = propiedades.getProperty("password");
+            //For MySql 5.5
+            Class.forName("com.mysql.jdbc.Driver");
+            //For MySql 8.0
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam + "?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
+            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
+        } catch (ClassNotFoundException | SQLException ex) {
+           Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Conexion;
+    }
 /*  ----------------------------------------------------------------------------------
     Nombre: Clase conex()
     Función: Apertura La Conexión con la BD/ Utilizado para la consulta de tablas}
@@ -42,14 +75,39 @@ public class controladorBD {
         try {
             String db_nam = "bdconsultorio";
             String use = "root";
-            String pas ="";
+            String pas ="SAKAI";
             Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam, use, pas);
+            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam +"?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
             System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
         } catch (ClassNotFoundException | SQLException ex) {
-           // Logger.getLogger(LibreriaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(LibreriaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia conex()");
         return Conexion;
+    }
+    
+    /*  ----------------------------------------------------------------------------------
+    Nombre: Clase conex() con return
+    Función: Apertura La Conexión con la BD/ Utilizado para la consulta de tablas}
+    Parametros: 
+    ----------------------------------------------------------------------------------
+*/
+    public boolean conexion(){
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la conexion()");
+        try {
+            String db_nam = "bdconsultorio";
+            String use = "root";
+            String pas ="SAKAI";
+            Class.forName("com.mysql.jdbc.Driver");
+            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam +"?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
+            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
+            return true;
+        } catch (ClassNotFoundException | SQLException ex) {
+            //Logger.getLogger(LibreriaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            return false;
+        }
     }
     
 /*  ----------------------------------------------------------------------------------
@@ -59,9 +117,10 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void MySQLConnection(String user, String pass, String db_name) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia MySQLConnection()");
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_name, user, pass);
+            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_name+"?characterEncoding=latin1&useConfigs=maxPerformance", user, pass);
             System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,6 +133,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void closeConnection() {
+         clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se cierra la conexión closeConnection()");
         try {
             Conexion.close();
             System.out.println("Se ha finalizado la conexión con el servidor");
@@ -83,11 +143,12 @@ public class controladorBD {
     }
 
     public void createDB(String name) { //ProMujer
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createDB()");
         try {
             String Query = "CREATE DATABASE " + name;
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-            MySQLConnection("root", "", name);
+            MySQLConnection("root", "SAKAI", name);
             JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
         } catch (SQLException ex) {
             Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,6 +156,7 @@ public class controladorBD {
     }
     
     public void createTableUser(String name) { // Name = Usuarios Provisional por que necesito tener la version completa 
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createTableUser()");
         try {
             String Query = "CREATE TABLE " + name + ""
                     + "(dni_user VARCHAR(25), usuario VARCHAR(50), password VARCHAR(50))";
@@ -107,6 +169,8 @@ public class controladorBD {
     }
 
     public void createTable(String name) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createTable()");
+       
         try {
             String Query = "CREATE TABLE " + name + ""
                     + "(ID VARCHAR(25),Nombre VARCHAR(50), Apellido VARCHAR(50),"
@@ -131,6 +195,8 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public int insertDataUsuarioUM(String table_name, int id_unidadmedica, int um_paciente, String um_folio,String um_medico, String um_consultorio) {
+         clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioUM()");
+       
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + id_unidadmedica + "\", "
@@ -167,6 +233,7 @@ public class controladorBD {
 */
     public int insertDataUsuarioRecetas(String table_name, int rec_idreceta, int rec_idpaciente, int rec_idunidadmedica,String rec_descripcion, String rec_alergias, String rec_estatura,
             String rec_peso, String rec_presion, String rec_tiposangre, int rec_idcita ) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioRecetas()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + rec_idreceta + "\", "
@@ -214,6 +281,7 @@ public class controladorBD {
 */
     public int insertDataUsuarioPAC(String table_name,int um_paciente, String pac_nombres, String pac_apellidopaterno, String pac_apellidomaterno, 
             int pac_edad, String pac_sexo,String pac_curp,String pac_lugar, String pac_direccion, String pac_numcasa, String pac_colonia, String pac_fechanac,  int id_unidadmedica ) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioPAC()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + um_paciente + "\", "
@@ -268,6 +336,7 @@ public class controladorBD {
             String ncita_servicio,
             String ncita_analisis, 
             String ncita_idunidadmedica, int id_recetas){
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertaCitas()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + generaIdCita + "\", "
@@ -313,6 +382,7 @@ public class controladorBD {
 */
     public int updateDataUsuarioPAC(String table_name,int um_paciente, String pac_nombres, String pac_apellidopaterno, String pac_apellidomaterno, 
             int pac_edad, String pac_sexo,String pac_curp,String pac_lugar, String pac_direccion, String pac_numcasa, String pac_colonia, String pac_fechanac,  int id_unidadmedica ) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia updateDataUsuarioPAC()");
         try {
             //int response;
             String sql = ("UPDATE  " + table_name  + " "
@@ -350,6 +420,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public int modifDataUsuarioPAC(String table_name, int id_unidadmedica, int um_paciente, String um_folio,String um_medico, String um_consultorio) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia modifDataUsuarioPAC()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + id_unidadmedica + "\", "
@@ -379,6 +450,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void insertDataUsuario(String table_name, String dni_user, String usuario, String password) {
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuario()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + dni_user + "\", "
@@ -405,7 +477,7 @@ public class controladorBD {
 */ 
 public Object[] selectLlenaTabla(){
      Object llenaTabla[] = null;
-    
+    ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia selectLlenaTabla()");
     try {
             String Query = "SELECT * FROM bdconsultorio.tabla_pacientes;";
             Statement st = Conexion.createStatement();
@@ -452,6 +524,7 @@ public Object[] selectLlenaTabla(){
             Double precio, String tieneCasa, String rentaCasa, String tieneCoche, String recomendadoPor, String grupo, 
             String usuario, String password, String fechaRegistro) {
         Date fechaNacAux = null;
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDatosUsuario()");
         //Convierto String a Date  JLCI 08/07/2018
         //lv = new LibreriasValidacion();
         fechaNacAux = lv.convertirDatos(fechaNac, fechaNacAux); //Guardo Fecha Nacimiento JLCI 08/07/2018
@@ -490,6 +563,7 @@ public Object[] selectLlenaTabla(){
     }
  /*Ejemplo:*/   
     public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertData()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + ID + "\", "
@@ -509,6 +583,7 @@ public Object[] selectLlenaTabla(){
     
 
     public void getValues(String table_name) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia getValues()");
         try {
             String Query = "SELECT * FROM " + table_name;
             Statement st = Conexion.createStatement();
@@ -537,6 +612,7 @@ public Object[] selectLlenaTabla(){
     ----------------------------------------------------------------------------------
 */
     public boolean ConsultaUser(String table_name, String dni_user, String password) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ConsultaUser()");
         boolean userfind = false;
         String Usuario1 = "";
         String Pass1 = "";
@@ -571,6 +647,7 @@ public Object[] selectLlenaTabla(){
     }
 
     public void deleteRecord(String table_name, String ID) {
+        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
         try {
             String Query = "DELETE FROM " + table_name + " WHERE ID = \"" + ID + "\"";
             Statement st = Conexion.createStatement();
@@ -584,5 +661,178 @@ public Object[] selectLlenaTabla(){
 
     public com.mysql.jdbc.Connection getConnection() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public int validarInicioDeSesion(String user, String password) throws SQLException{
+        int resultado = 0;
+          String sql= "select * from tabla_usuarios where username=? and password=? ";
+          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+sql);
+          
+          PreparedStatement st = Conexion.prepareStatement(sql);
+          st.setString(1, user);
+          st.setString(2,password);
+          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+st.toString());
+          ResultSet rs= st.executeQuery();
+          
+           while(rs.next()){
+                resultado=1;
+           }
+           return resultado;
+    }
+    /*Retorna el modelo de usuarios para la tabla usuarios*/
+    public DefaultTableModel modeloUsuarios(String columna[]){
+        System.out.println(Arrays.toString(columna));
+        DefaultTableModel modeloUsuarios = new DefaultTableModel(null, columna);
+        try{
+            String Sql = "SELECT * FROM bdconsultorio.tabla_usuarios;";
+            System.out.println("Contenido: "+Sql);
+  
+            PreparedStatement us = Conexion.prepareStatement(Sql);
+            ResultSet res = us.executeQuery();
+            Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
+            
+            while(res.next()){
+                for (int i = 0; i<columna.length; i++){
+                    objDatos[i] = res.getObject(i+1);
+                }
+                modeloUsuarios.addRow(objDatos);
+            }
+        }
+        catch(SQLException ex){
+            System.out.println("Exception: "+ ex.getMessage());
+        }
+        return modeloUsuarios;
+    }
+    
+    public int insertarDatosUsuario(int dni_user, String usuario, String password,String email,  
+            int tipoRol, int edad, String nombres, String apellidos, String direccion) {
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertarDatosUsuario()");
+        try {
+            String Query = "INSERT INTO bdconsultorio.tabla_usuarios VALUES(?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = Conexion.prepareStatement(Query);
+            statement.setInt(1,dni_user );
+            statement.setString(2, usuario);
+            statement.setString(3, password);
+            statement.setString(4,email);
+            statement.setInt(5, tipoRol);
+            statement.setString(6,nombres);
+            statement.setString(7,apellidos);
+            statement.setString(8,direccion);
+            statement.setInt(9, edad);
+            statement.setString(10, lv.dameFechaActual(""));
+            statement.executeUpdate();
+            return 1;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return 0;
+        }
+    }
+    
+    public int editUsers(int dni_user, String usuario, String password,String email,  
+            int tipoRol, int edad, String nombres, String apellidos, String direccion) {
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia editUsers()");
+        try {
+            String Query = "UPDATE tabla_usuarios"
+                    + " SET username = ?, email = ?, password = ?, type_user = ?, age = ?,"
+                    + " nombres = ?, apellidos = ?, direccion = ?"
+                    + " WHERE id_usuario = ?;";
+            PreparedStatement statement = Conexion.prepareStatement(Query);
+            statement.setString(1, usuario);
+            statement.setString(2,email);
+            statement.setString(3, password);
+            statement.setInt(4, tipoRol);
+            statement.setInt(5, edad);
+            statement.setString(6, nombres);
+            statement.setString(7, apellidos);
+            statement.setString(8, direccion);
+            statement.setInt(9, dni_user);
+            statement.executeUpdate();
+            return 1;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return 0;
+        }
+    }
+    /*
+    El modelo permite obtener todos los datos del Usuario de acuerdo a su ID.
+    @id_user
+    */
+    public modeloUsuario getDataUser(int id_user){
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia getDataUser()");
+        modeloUsuario mUser = new modeloUsuario();
+        try{
+            String Sql = "SELECT * FROM tabla_usuarios where id_usuario = ?;";
+            System.out.println("Contenido: "+Sql);
+  
+            PreparedStatement us = Conexion.prepareStatement(Sql);
+            us.setInt(1, id_user);
+            
+            ResultSet res = us.executeQuery();
+            while(res.next()){
+                mUser.setId_user(res.getInt("id_usuario"));
+                mUser.setUsuario(res.getString("username"));
+                mUser.setPassword(res.getString("password"));
+                mUser.setEmail(res.getString("email"));
+                mUser.setTipoRol(res.getInt("type_user"));
+                mUser.setEdad(res.getInt("age"));
+                mUser.setFecha(res.getString("dateUpadate"));
+                mUser.setApellidos(res.getString("apellidos"));
+                mUser.setNombres(res.getString("nombres"));
+                mUser.setDireccion(res.getString("direccion"));
+            }
+        }
+        catch(SQLException ex){
+            System.out.println("Exception: "+ ex.getMessage());
+        }
+        return mUser;
+    }
+    
+    /*
+    Permite eliminar un usuario existente
+    @id_user
+    */
+    public int deleteUser(int id_user){
+        int resp = 0;
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
+        try {
+            String Query = "DELETE FROM tabla_usuarios WHERE id_usuario = \"" + id_user + "\"";
+            Statement st = Conexion.createStatement();
+            st.executeUpdate(Query);
+            resp = 1;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
+            resp = 0;
+        }
+        return resp;
+    }
+    
+    /*
+    Permite buscar un usuario existente
+    @id_user
+    */
+    public DefaultTableModel modeloUsuarios(String columna[], String dato){
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia busqueda modeloUsuarios()");
+        DefaultTableModel modeloUsuarios = new DefaultTableModel(null, columna);
+        try{
+            String Sql = "SELECT * FROM tabla_usuarios where username LIKE '%"+dato+"%' or email LIKE '%"+dato+"%';";
+            System.out.println("Contenido: "+Sql);
+  
+            PreparedStatement us = Conexion.prepareStatement(Sql);
+           
+            ResultSet res = us.executeQuery();
+            Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
+            
+            while(res.next()){
+                for (int i = 0; i<columna.length; i++){
+                    objDatos[i] = res.getObject(i+1);
+                }
+                modeloUsuarios.addRow(objDatos);
+            }
+        }
+        catch(SQLException ex){
+            System.out.println("Exception: "+ ex.getMessage());
+        }
+        return modeloUsuarios;
     }
 }

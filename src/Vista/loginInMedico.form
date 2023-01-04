@@ -38,13 +38,6 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jPasswordField1" pref="282" max="32767" attributes="0"/>
-                          <Component id="jTextNombre" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="336" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabel3" min="-2" pref="229" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
                   </Group>
@@ -57,8 +50,16 @@
                       <EmptySpace min="-2" pref="445" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jPasswordField1" pref="282" max="32767" attributes="0"/>
+                          <Component id="jTextNombre" max="32767" attributes="0"/>
+                          <Component id="textoError" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="336" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jButton1" min="-2" pref="231" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="362" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="373" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -78,9 +79,11 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPasswordField1" min="-2" pref="42" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="textoError" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
           </Group>
@@ -129,8 +132,14 @@
       </Layout>
     </Container>
     <Component class="javax.swing.JTextField" name="jTextNombre">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextNombreKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jPasswordField1KeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -177,6 +186,11 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textoError">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ingresa: Usuario y Contrase&#xf1;a para Iniciar Sesi&#xf3;n"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

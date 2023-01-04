@@ -9,9 +9,14 @@ package Controlador;
  *
  * @author joseluis.caamal
  */
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
 //import javax.swing.JTextField;
 /**
  *
@@ -131,5 +136,30 @@ public boolean validaAno(String ano){
     return anoVal;
     
 }
+   private static final String  ENCRYPT_KEY="KaabCode2022"; //Clave Encriptación No Compartir
+   public  String encrypt(String value) {
+    try {
+        String cadenaCodificada = Base64.encodeBase64String(value.getBytes());
+        System.out.println("codificado: " + cadenaCodificada);
+        return cadenaCodificada;
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return null;
+}
+
+public  String decrypt( String value) {
+    try {
+        byte[] bytesDecodificados = Base64.decodeBase64(value);
+        String cadenaDecodificada = new String(bytesDecodificados);
+        System.out.println("cadenaDecodificada: " + cadenaDecodificada);
+        return cadenaDecodificada;
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return null;
+}
+
+   
 
 }

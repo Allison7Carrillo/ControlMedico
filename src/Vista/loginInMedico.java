@@ -4,7 +4,13 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Controlador.ControlLoogs;
+import Controlador.controladorBD;
+import Controlador.controladorLibrerias;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 /**
  *
  * 
@@ -14,13 +20,54 @@ public class loginInMedico extends javax.swing.JFrame {
     /**
      * Creates new form loginInMedico
      */
-    String User_Public ="admin";
-    String Password="admin";
+    ControlLoogs clog = new ControlLoogs(); //Importo los logs
+//    String User_Public ="admin";
+//    String Password="admin";
+    controladorBD cc= new controladorBD();
+    controladorLibrerias clb = new controladorLibrerias();
+    Connection con=cc.conex();
     public loginInMedico() {
         initComponents();
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");
+    }
+     public void ValidarAcceso(){
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+        int resultado=0;
+        try {
+          cc.openConnection();
+          String usuario=jTextNombre.getText().trim();
+          String pass=String.valueOf(jPasswordField1.getPassword()).trim();
+          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ingresa: usuario"+usuario);
+          
+          if(( !usuario.isEmpty() || !usuario.equals("")) &&  ( !pass.isEmpty() || !pass.equals(""))) {
+            pass = clb.encrypt(pass);// Encripta para validar la contraseña
+            resultado = cc.validarInicioDeSesion(usuario,pass);
+          }else{
+              textoError.setText("No existe información del usuario para el inicio de sesión");
+              resultado = 0;
+          }
+          cc.closeConnection();
+//         else{
+//            System.out.println("Error en el acceso, vuelva a intentarlo");
+//            JOptionPane.showMessageDialog(null,"Error en el acceso, vuelva a intentarlo:"+usuario);
+//          }
+          if(resultado==1){
+                ControlLoogs.escribirLog("SistemaLogger.log","Bienvenido al sistema");
+                textoError.setText("Bienvenido al sistema: "+usuario);
+                vistaPrincipal form = new vistaPrincipal();
+                form.show(true);
+                this.dispose();
+                con.close();
+            }else{
+                //JOptionPane.showMessageDialog(null, "No se puede iniciar sesión:"+usuario);
+                textoError.setText("No se puede iniciar sesión con el usuario:"+usuario);
+                ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: No se puede iniciar sesión con el usuario:"+usuario);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Error en el acceso, vuelva a intentarlo" + e.getMessage());
+        }
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +85,7 @@ public class loginInMedico extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        textoError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Medico");
@@ -72,6 +120,18 @@ public class loginInMedico extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        jTextNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextNombreKeyPressed(evt);
+            }
+        });
+
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Usuario");
 
@@ -91,6 +151,8 @@ public class loginInMedico extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/usuario (2).png"))); // NOI18N
 
+        textoError.setText("Ingresa: Usuario y Contraseña para Iniciar Sesión");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,11 +163,6 @@ public class loginInMedico extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                            .addComponent(jTextNombre))
-                        .addGap(336, 336, 336))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(327, 327, 327))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -115,8 +172,14 @@ public class loginInMedico extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(445, 445, 445))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                            .addComponent(jTextNombre)
+                            .addComponent(textoError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(336, 336, 336))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(362, 362, 362))))
+                        .addGap(373, 373, 373))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,9 +195,11 @@ public class loginInMedico extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(textoError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
@@ -144,30 +209,28 @@ public class loginInMedico extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        String User_Get;
-        String Pass_Get;
-        
-        User_Get = jTextNombre.getText();
-        Pass_Get = jPasswordField1.getText();
-        
-        if(User_Get.equals(User_Public)){
-            if(Pass_Get.equals(Password)){
-                System.out.println("Bienvenidos");
-                vistaPrincipal vp = new vistaPrincipal();
-                vp.show();
-                this.dispose();
-                
-            }
-            else{
-                System.out.println("La contraseña no coincide.");
-            }
-        }
-        else{
-            System.out.println("Verifica tu usuario & contraseña");
-        }
+
+        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+        ValidarAcceso();
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+            ValidarAcceso();
+        }
+    }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jTextNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNombreKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()"); 
+            ValidarAcceso();
+        }
+        
+    }//GEN-LAST:event_jTextNombreKeyPressed
 
     /**
      * @param args the command line arguments
@@ -213,5 +276,6 @@ public class loginInMedico extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextNombre;
+    private javax.swing.JLabel textoError;
     // End of variables declaration//GEN-END:variables
 }

@@ -380,7 +380,7 @@ public class vistaRecetasMedicas extends javax.swing.JFrame {
           rec_presion = recme_presión.getText();
           rec_tiposangre = recme_tiposangre.getText();
           
-          cb.MySQLConnection("root", "sakai", "bdconsultorio"); /*Abrimos conexión*/
+          cb.MySQLConnection("root", "SAKAI", "bdconsultorio"); /*Abrimos conexión*/
           validaBD = cb.insertDataUsuarioRecetas("tabla_recetas",  rec_idreceta,  Integer.parseInt(reme_idpaciente),   Integer.parseInt(reme_unidadmedica), 
           rec_descripcion,  rec_alergias,  rec_estatura,
           rec_peso,  rec_presion,  rec_tiposangre,reme_idcita );
