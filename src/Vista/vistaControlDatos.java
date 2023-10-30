@@ -31,6 +31,7 @@ public class vistaControlDatos extends javax.swing.JFrame {
     public String public_edad = "";
     controladorBD cb = new controladorBD();
     public vistaControlDatos(String idPaciente, int verDatos) {
+        this.setUndecorated(true);
         //String Sql = "SELECT id_paciente,pac_nombres,pac_apellidopaterno,pac_apellidomaterno,pac_curp,pac_idunidadmedica FROM bdconsultorio.tabla_pacientes";
         Sql = "SELECT * FROM bdconsultorio.tabla_pacientes, bdconsultorio.tabla_unidadmedica";
         Sql += " WHERE id_paciente = '"+idPaciente+"' and um_paciente = '"+idPaciente+"'";
@@ -41,7 +42,9 @@ public class vistaControlDatos extends javax.swing.JFrame {
            // botonControl.hide();
         }
         if(verDatos == 2){
-            setFilas(Sql);}
+            setFilas(Sql);
+        }
+        
         //SELECT * FROM bdconsultorio.tabla_pacientes, bdconsultorio.tabla_unidadmedica WHERE id_paciente = 3310004 and um_paciente = 3310004;
     }
     /*
@@ -56,50 +59,11 @@ public class vistaControlDatos extends javax.swing.JFrame {
     }
     void setFilas(String Sql){
         try{
-          /*  String Sql = "";
-            
-                 Sql = 
-                 //   "SELECT dni_pago,usuario,fecha_pago,total,saldoActual FROM tabla_pagos";
-            "SELECT id_paciente,pac_nombres,pac_apellidopaterno,pac_apellidomaterno,pac_curp,pac_idunidadmedica FROM bdconsultorio.tabla_pacientes";
-                 
-                 id_paciente int(11) PK 
-                pac_nombres varchar(45) 
-                pac_apellidopaterno varchar(45) 
-                pac_apellidomaterno varchar(45) 
-                pac_edad int(11) 
-                pac_sexo varchar(45) 
-                pac_curp varchar(45) 
-                pac_lugar varchar(45) 
-                pac_direccion varchar(45) 
-                pac_numcasa varchar(45) 
-                pac_colonia varchar(45) 
-                pac_fechanac date 
-                pac_idunidadmedica int(11)
-                //unimedica
-                id_unidadmedica int(11) PK 
-                um_paciente int(11) 
-                um_folio varchar(45) 
-                um_medico varchar(45) 
-                um_consultorio varchar(45)
-                 */
-
-             System.out.println("Contenido: "+Sql);
-            
-//            SELECT dni_datos, nombres, apellidos,fecha_nac, telefonocel, tabla_grupo.id_grupo, 
-//            tabla_grupo.nombre_encargado  FROM tabla_datosusuarios LEFT JOIN tabla_grupo ON tabla_datosusuarios.grupo = tabla_grupo.id_grupo where tabla_datosusuarios.grupo = '3'
-//           
-//    
-            PreparedStatement us = cb.conex().prepareStatement(Sql);
+            System.out.println("Contenido: "+Sql);
+            PreparedStatement us = cb.openConnection().prepareStatement(Sql);
             ResultSet res = us.executeQuery();
-            //Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
-            
+
             while(res.next()){
-//                for (int i = 0; i<columna.length; i++){
-//                    objDatos[i] = res.getObject(i+1);
-//                    //System.out.println(objDatos[i]);
-//                }
-//                modeloPacientes.addRow(objDatos);
-                  //resultSet.getStringpac_nombres
                   nombreCompleto = res.getString("pac_nombres") +" "+ res.getString("pac_apellidopaterno") +" "+ res.getString("pac_apellidomaterno");
                   dape_nombre.setText(res.getString("pac_nombres") +" "+ res.getString("pac_apellidopaterno") +" "+ res.getString("pac_apellidomaterno"));
                   dape_curp.setText(res.getString("pac_curp"));
@@ -124,15 +88,11 @@ public class vistaControlDatos extends javax.swing.JFrame {
                   
                   dape_consultorio.setText(res.getString("um_consultorio"));
                   nombreConsultorio  = res.getString("um_consultorio");
-//                   String nombreIDUnidadMedica = "";
-//                   String nombreFolio = "";
-//                   String nombreConsultorio = "";
-//                   String nombreMedico = "";
                   
             }
         }
         catch(SQLException ex){
-        
+             System.out.println("No existen registros para :"+dape_idpac);
         }
     
     }

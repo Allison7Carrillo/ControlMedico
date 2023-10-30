@@ -40,7 +40,6 @@ public class contraldorReporteTabla {
     ControlLoogs clog = new ControlLoogs(); //Importo los logs
    //private  Font fuenteNegra10 = new Font(Font.getFamily(""), 10, Font.BOLD, Color.BLACK);
    controladorBD cc= new controladorBD();
-   Connection con=cc.conex();
    public void crearPDF(int TipoArchivo) throws Exception {
        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia CreadorReportes()"+TipoArchivo);
       /*Leo el log en caso de que quiera imprimirlo :D*/
@@ -138,7 +137,7 @@ public class contraldorReporteTabla {
       
       try { 
           
-          Statement st =con.createStatement();
+          Statement st =cc.openConnection().createStatement();
           ResultSet rs=st.executeQuery(sql);
           
            while(rs.next()){

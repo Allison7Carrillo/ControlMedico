@@ -19,6 +19,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
      * Creates new form loginInMedico
      */
     public vistaPrincipal() {
+        this.setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_HORIZ);
         clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia el sistema control médico");
@@ -62,8 +63,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Instituto Médico");
+        setTitle("Unidad Médica");
         setAlwaysOnTop(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocation(new java.awt.Point(500, 200));
         setResizable(false);
 

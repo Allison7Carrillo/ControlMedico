@@ -20,7 +20,7 @@ public class vistaUsuarioPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form loginInMedico
      */
-    public String columna[] = new String[] {"#Usuario","Nombre Usuario","Contraseña","Correo","Tipo Usuario","Nombre","Apellidos"};
+    public String columna[] = new String[] {"#Usuario","Nombre Usuario","Contraseña","Correo","Tipo Usuario","Nombres","Apellidos"};
     controladorBD cc= new controladorBD();
     
     DefaultTableModel modeloUsuarios;

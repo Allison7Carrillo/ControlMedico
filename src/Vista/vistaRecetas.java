@@ -86,7 +86,7 @@ public class vistaRecetas extends javax.swing.JFrame {
 //            tabla_grupo.nombre_encargado  FROM tabla_datosusuarios LEFT JOIN tabla_grupo ON tabla_datosusuarios.grupo = tabla_grupo.id_grupo where tabla_datosusuarios.grupo = '3'
 //           
 //    
-            PreparedStatement us = cb.conex().prepareStatement(Sql);
+            PreparedStatement us = cb.openConnection().prepareStatement(Sql);
             ResultSet res = us.executeQuery();
             //Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
             

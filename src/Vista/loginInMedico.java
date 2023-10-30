@@ -25,7 +25,7 @@ public class loginInMedico extends javax.swing.JFrame {
 //    String Password="admin";
     controladorBD cc= new controladorBD();
     controladorLibrerias clb = new controladorLibrerias();
-    Connection con=cc.conex();
+    
     public loginInMedico() {
         initComponents();
         ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");
@@ -40,7 +40,8 @@ public class loginInMedico extends javax.swing.JFrame {
           ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ingresa: usuario"+usuario);
           
           if(( !usuario.isEmpty() || !usuario.equals("")) &&  ( !pass.isEmpty() || !pass.equals(""))) {
-            pass = clb.encrypt(pass);// Encripta para validar la contraseña
+            pass = clb.encrypt(pass);// DesEncripta para validar la contraseña
+            //pass = clb.decrypt(pass);// DesEncripta para validar la contraseña
             resultado = cc.validarInicioDeSesion(usuario,pass);
           }else{
               textoError.setText("No existe información del usuario para el inicio de sesión");
@@ -57,7 +58,6 @@ public class loginInMedico extends javax.swing.JFrame {
                 vistaPrincipal form = new vistaPrincipal();
                 form.show(true);
                 this.dispose();
-                con.close();
             }else{
                 //JOptionPane.showMessageDialog(null, "No se puede iniciar sesión:"+usuario);
                 textoError.setText("No se puede iniciar sesión con el usuario:"+usuario);

@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -95,7 +97,7 @@ public class vistaPacientes extends javax.swing.JFrame {
 //            tabla_grupo.nombre_encargado  FROM tabla_datosusuarios LEFT JOIN tabla_grupo ON tabla_datosusuarios.grupo = tabla_grupo.id_grupo where tabla_datosusuarios.grupo = '3'
 //           
 //    
-            PreparedStatement us = cb.conex().prepareStatement(Sql);
+            PreparedStatement us = cb.openConnection().prepareStatement(Sql);
             ResultSet res = us.executeQuery();
             Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
             
@@ -142,7 +144,7 @@ public class vistaPacientes extends javax.swing.JFrame {
 //            tabla_grupo.nombre_encargado  FROM tabla_datosusuarios LEFT JOIN tabla_grupo ON tabla_datosusuarios.grupo = tabla_grupo.id_grupo where tabla_datosusuarios.grupo = '3'
 //           
 //    
-            PreparedStatement us = cb.conex().prepareStatement(Sql);
+            PreparedStatement us = cb.openConnection().prepareStatement(Sql);
             ResultSet res = us.executeQuery();
             Object objDatos[] = new Object[columna.length]; //Siempre debe cconexoincidir con el numero de columnas!
             
@@ -385,28 +387,28 @@ public class vistaPacientes extends javax.swing.JFrame {
         cb.closeConnection();
         
         int bqf = -1;
-        String bqf2 = "";
+        
         bqf = Integer.parseInt(idPaciente.getText());
         System.out.println(bqf);
-        if(bqf>0){
-            textoError.setText(" Selecionaste ID Valido = "+bqf);
+        try {
+            cb.openConnection();
+            bqf = cb.validarDatosPaciente(bqf);
+            cb.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(vistaPacientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else{
-            bqf = 0;
-            //this.dispose();
-        }
+        System.out.println(bqf);
         //this.modeloPacientes = new DefaultTableModel(null, getColumnas());
-        if(bqf < 1){
-            textoError.setText("No Selecionaste ningun ID Valido, ingresa el id_paciente ");
-        }
-        else{
-            textoError.setText(" Selecionaste ID Valido = "+bqf2);
-            bqf2 = Integer.toString(bqf);
-            vistaControlDatos vcd = new vistaControlDatos(bqf2,1);
+      
+        if(bqf == 1){
+            vistaControlDatos vcd = new vistaControlDatos(idPaciente.getText(),1);
             vcd.show();
             this.dispose();
         }
-        
+        else{
+            textoError.setText(" Selecionaste ID invalido = "+idPaciente.getText());
+        }
+            
     }//GEN-LAST:event_botonVerDatosActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

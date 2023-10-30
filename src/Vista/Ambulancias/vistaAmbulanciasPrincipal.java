@@ -20,7 +20,7 @@ public class vistaAmbulanciasPrincipal extends javax.swing.JFrame {
 
     ControlLoogs clog = new ControlLoogs(); //Importo los logs
     controladorBD cc= new controladorBD();
-    Connection con=cc.conex();
+    Connection con=cc.openConnection();
     public vistaAmbulanciasPrincipal() {
         initComponents();
         ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");

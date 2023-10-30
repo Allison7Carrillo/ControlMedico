@@ -21,10 +21,7 @@ public class vistaUsuarioCajon extends javax.swing.JFrame {
      * Creates new form loginInMedico
      */
     ControlLoogs clog = new ControlLoogs(); //Importo los logs
-//    String User_Public ="admin";
-//    String Password="admin";
     controladorBD cc= new controladorBD();
-    Connection con=cc.conex();
     public vistaUsuarioCajon() {
         initComponents();
         ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");

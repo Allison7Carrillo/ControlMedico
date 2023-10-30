@@ -51,9 +51,10 @@ public class controladorBD {
             String pas = propiedades.getProperty("password");
             //For MySql 5.5
             Class.forName("com.mysql.jdbc.Driver");
+            //Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam + "?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
             //For MySql 8.0
             //Class.forName("com.mysql.cj.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam + "?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
+            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam + "?characterEncoding=latin1&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC", use, pas);
             System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
         } catch (ClassNotFoundException | SQLException ex) {
            Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,28 +63,6 @@ public class controladorBD {
         } catch (IOException ex) {
             Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return Conexion;
-    }
-/*  ----------------------------------------------------------------------------------
-    Nombre: Clase conex()
-    Función: Apertura La Conexión con la BD/ Utilizado para la consulta de tablas}
-    Parametros: 
-    ----------------------------------------------------------------------------------
-*/
-    public Connection conex() {
-        
-        try {
-            String db_nam = "bdconsultorio";
-            String use = "root";
-            String pas ="SAKAI";
-            Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam +"?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
-            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
-        } catch (ClassNotFoundException | SQLException ex) {
-            //Logger.getLogger(LibreriaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-        }
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia conex()");
         return Conexion;
     }
     
@@ -659,12 +638,10 @@ public Object[] selectLlenaTabla(){
         }
     }  
 
-    public com.mysql.jdbc.Connection getConnection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     public int validarInicioDeSesion(String user, String password) throws SQLException{
         int resultado = 0;
+            
           String sql= "select * from tabla_usuarios where username=? and password=? ";
           ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+sql);
           
@@ -715,12 +692,14 @@ public Object[] selectLlenaTabla(){
             statement.setString(3, password);
             statement.setString(4,email);
             statement.setInt(5, tipoRol);
-            statement.setString(6,nombres);
-            statement.setString(7,apellidos);
-            statement.setString(8,direccion);
-            statement.setInt(9, edad);
+            statement.setInt(6,edad);
+            statement.setString(7,nombres);
+            statement.setString(8,apellidos);
+            statement.setString(9, direccion);
             statement.setString(10, lv.dameFechaActual(""));
+            System.out.println(statement.toString());
             statement.executeUpdate();
+            
             return 1;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -775,7 +754,7 @@ public Object[] selectLlenaTabla(){
                 mUser.setEmail(res.getString("email"));
                 mUser.setTipoRol(res.getInt("type_user"));
                 mUser.setEdad(res.getInt("age"));
-                mUser.setFecha(res.getString("dateUpadate"));
+                mUser.setFecha(res.getString("dateUpdate"));
                 mUser.setApellidos(res.getString("apellidos"));
                 mUser.setNombres(res.getString("nombres"));
                 mUser.setDireccion(res.getString("direccion"));
@@ -834,5 +813,27 @@ public Object[] selectLlenaTabla(){
             System.out.println("Exception: "+ ex.getMessage());
         }
         return modeloUsuarios;
+    }
+    
+    /*
+    * Valida la información del los datos del usuario para evitar mostrar la ventana vacía
+    * Jose Luis Caamal Ic
+    * jcaamalic@gmail.com
+    */
+        public int validarDatosPaciente(int idPaciente) throws SQLException{
+        int resultado = 0;
+            
+          String sql = "SELECT * FROM bdconsultorio.tabla_pacientes, bdconsultorio.tabla_unidadmedica";
+          sql += " WHERE id_paciente = ? and um_paciente = ?";
+          PreparedStatement st = Conexion.prepareStatement(sql);
+          st.setInt(1, idPaciente);
+          st.setInt(2, idPaciente);
+          ControlLoogs.escribirLog("SistemaLogger.log", "Paciente: Actividad: Se Ejecuta la consulta: "+st.toString());
+          ResultSet rs= st.executeQuery();
+          
+           while(rs.next()){
+                resultado=1;
+           }
+           return resultado;
     }
 }
