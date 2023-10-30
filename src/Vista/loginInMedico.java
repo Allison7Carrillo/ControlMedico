@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Vista;
-import Controlador.ControlLoogs;
 import Controlador.controladorBD;
 import Controlador.controladorLibrerias;
 import java.awt.event.KeyEvent;

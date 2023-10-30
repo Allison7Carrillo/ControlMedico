@@ -5,7 +5,6 @@
  */
 package Vista.Usuarios;
 import Vista.*;
-import Controlador.ControlLoogs;
 import Controlador.controladorBD;
 import java.io.IOException;
 import java.util.logging.Level;

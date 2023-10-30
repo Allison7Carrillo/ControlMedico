@@ -5,7 +5,6 @@
  */
 package Vista;
 import Vista.UnidadMedica.vistaUnidadMedicaPrincipal;
-import Controlador.ControlLoogs;
 import Vista.Usuarios.vistaUsuarioPrincipal;
 import java.io.IOException;
 import java.util.logging.Level;

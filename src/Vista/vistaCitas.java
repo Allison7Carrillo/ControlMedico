@@ -5,7 +5,6 @@
  */
 package Vista;
 
-import Controlador.ControlLoogs;
 import Controlador.controladorBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

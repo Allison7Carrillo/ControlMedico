@@ -6,7 +6,6 @@
 package Vista.Ambulancias;
 import Vista.Usuarios.*;
 import Vista.*;
-import Controlador.ControlLoogs;
 import Controlador.controladorBD;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
