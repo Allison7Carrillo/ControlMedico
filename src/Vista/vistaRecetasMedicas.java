@@ -8,23 +8,14 @@ package Vista;
 import Controlador.controladorBD;
 
 /**
- *
- * 
+ * Se realiza la vista de recetas medicas
+ * jcaamalic@gmail.com
+ * 29/10/2023
  */
 public class vistaRecetasMedicas extends javax.swing.JFrame {
 
-    /**
-     * Creates new form loginInMedico
-     */
-    /*
-        vcita_nombrePaciente = nombreCompleto;
-        vcita_pacpaciente = pac_paciente;
-        vcita_nombreIDUnidadMedica = nombreIDUnidadMedica;
-        vcita_nombreFolio = nombreFolio;
-        vcita_nombreConsultorio = nombreConsultorio;
-        vcita_nombreMedico = nombreMedico;
-        */
-     /*Obtener el ID de la unidad MÉDICA*/
+    
+    /*Obtener el ID de la unidad MÉDICA*/
     //public int idUMedica;
     public int validaBD=0;
     public String reme_idpaciente = "";
@@ -379,8 +370,7 @@ public class vistaRecetasMedicas extends javax.swing.JFrame {
           rec_peso = (String) recme_peso.getSelectedItem();
           rec_presion = recme_presión.getText();
           rec_tiposangre = recme_tiposangre.getText();
-          
-          cb.MySQLConnection("root", "SAKAI", "bdconsultorio"); /*Abrimos conexión*/
+          cb.openConnection();
           validaBD = cb.insertDataUsuarioRecetas("tabla_recetas",  rec_idreceta,  Integer.parseInt(reme_idpaciente),   Integer.parseInt(reme_unidadmedica), 
           rec_descripcion,  rec_alergias,  rec_estatura,
           rec_peso,  rec_presion,  rec_tiposangre,reme_idcita );

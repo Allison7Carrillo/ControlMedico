@@ -65,46 +65,7 @@ public class controladorBD {
         }
         return Conexion;
     }
-    
-    /*  ----------------------------------------------------------------------------------
-    Nombre: Clase conex() con return
-    Función: Apertura La Conexión con la BD/ Utilizado para la consulta de tablas}
-    Parametros: 
-    ----------------------------------------------------------------------------------
-*/
-    public boolean conexion(){
-        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia la conexion()");
-        try {
-            String db_nam = "bdconsultorio";
-            String use = "root";
-            String pas ="SAKAI";
-            Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_nam +"?characterEncoding=latin1&useConfigs=maxPerformance", use, pas);
-            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
-            return true;
-        } catch (ClassNotFoundException | SQLException ex) {
-            //Logger.getLogger(LibreriaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-            return false;
-        }
-    }
-    
-/*  ----------------------------------------------------------------------------------
-    Nombre: Clase MySQLConnection
-    Función: Apertura La Conexión con la BD
-    Parametros: 
-    ----------------------------------------------------------------------------------
-*/
-    public void MySQLConnection(String user, String pass, String db_name) {
-        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia MySQLConnection()");
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_name+"?characterEncoding=latin1&useConfigs=maxPerformance", user, pass);
-            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+
 /*  ----------------------------------------------------------------------------------
     Nombre: Clase closeConnection
     Función: Cierra La Conexión con la BD
@@ -127,7 +88,7 @@ public class controladorBD {
             String Query = "CREATE DATABASE " + name;
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-            MySQLConnection("root", "SAKAI", name);
+            openConnection();
             JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
         } catch (SQLException ex) {
             Logger.getLogger(controladorBD.class.getName()).log(Level.SEVERE, null, ex);
