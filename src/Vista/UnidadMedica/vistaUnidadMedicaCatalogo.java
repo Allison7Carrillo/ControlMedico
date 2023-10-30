@@ -65,6 +65,9 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        btnRegistroUM = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnRegistrarMedico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -94,17 +97,61 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnRegistroUM.setBackground(new java.awt.Color(0, 51, 153));
+        btnRegistroUM.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        btnRegistroUM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/correc.png"))); // NOI18N
+        btnRegistroUM.setText("Registrar UM");
+        btnRegistroUM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroUMActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setBackground(new java.awt.Color(204, 0, 0));
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(255, 0, 0));
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
+        btnCancelar.setText("Atras/Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnRegistrarMedico.setBackground(new java.awt.Color(0, 51, 153));
+        btnRegistrarMedico.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        btnRegistrarMedico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/correc.png"))); // NOI18N
+        btnRegistrarMedico.setText("Registrar Médico");
+        btnRegistrarMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarMedicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(btnRegistrarMedico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegistroUM, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 663, Short.MAX_VALUE))
+                .addGap(180, 180, 180)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistroUM, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 403, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,13 +163,45 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistroUMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroUMActionPerformed
+        // TODO add your handling code here:
+        /*Datos*/
+        cb.openConnection();
+        Date ahora = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatoTiempo = new SimpleDateFormat("hh:mm:ss");
+        String fechaFormateada = formatoFecha.format(ahora);
+        String fechaFormatoTiempo = formatoTiempo.format(ahora);
+        System.out.println("formato de fecha " + formatoFecha.toPattern());
+        System.out.println("formato de tiempo " + formatoTiempo.toPattern());
+        System.out.println("fecha como cadena " + ahora.toString());
+        System.out.println("formato de fecha " + formatoFecha.toPattern() + " valor: " + fechaFormateada);
+        System.out.println("formato de fecha " + formatoTiempo.toPattern() + " valor: " + fechaFormatoTiempo);
+        /**/
+        cb.closeConnection(); /*Cerramos conexión*/
+        this.setVisible(false);
+        //vistaRegistroPaciente vrp = new vistaRegistroPaciente(true,auxModal,auxIdPac);
+        //vrp.show();
+    }//GEN-LAST:event_btnRegistroUMActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnRegistrarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarMedicoActionPerformed
+        // TODO add your handling code here:
+        vistaUnidadMedicaRegistroMedico vumrm = new vistaUnidadMedicaRegistroMedico(null, rootPaneCheckingEnabled);
+        vumrm.show();
+    }//GEN-LAST:event_btnRegistrarMedicoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,6 +246,9 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton btnCancelar;
+    public static javax.swing.JButton btnRegistrarMedico;
+    public static javax.swing.JButton btnRegistroUM;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

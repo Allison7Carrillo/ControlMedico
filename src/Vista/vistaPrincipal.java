@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Vista;
+import Vista.UnidadMedica.vistaUnidadMedicaCatalogo;
 import Vista.UnidadMedica.vistaUnidadMedicaPrincipal;
 import Vista.Usuarios.vistaUsuarioPrincipal;
 import java.io.IOException;
@@ -402,8 +403,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     private void btnUMedicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUMedicaActionPerformed
         // TODO add your handling code here:
-        vistaUnidadMedicaPrincipal vmp = new vistaUnidadMedicaPrincipal(this, rootPaneCheckingEnabled);
-        vmp.show();
+        vistaUnidadMedicaCatalogo vmc = new vistaUnidadMedicaCatalogo(this, rootPaneCheckingEnabled);
+        vmc.show();
     }//GEN-LAST:event_btnUMedicaActionPerformed
 
     private void btnPacienteAfiliadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacienteAfiliadoActionPerformed

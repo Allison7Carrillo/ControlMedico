@@ -644,7 +644,7 @@ public Object[] selectLlenaTabla(){
     
     public int insertarDatosUsuario(int dni_user, String usuario, String password,String email,  
             int tipoRol, int edad, String nombres, String apellidos, String direccion) {
-        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertarDatosUsuario()");
+        logger.info("Usuario: Actividad: Se inicia insertarDatosUsuario()");
         try {
             String Query = "INSERT INTO bdconsultorio.tabla_usuarios VALUES(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = Conexion.prepareStatement(Query);
@@ -658,7 +658,7 @@ public Object[] selectLlenaTabla(){
             statement.setString(8,apellidos);
             statement.setString(9, direccion);
             statement.setString(10, lv.dameFechaActual(""));
-            System.out.println(statement.toString());
+            logger.info(statement.toString());
             statement.executeUpdate();
             
             return 1;
@@ -796,5 +796,29 @@ public Object[] selectLlenaTabla(){
                 resultado=1;
            }
            return resultado;
+    }
+    //Función que ingresa los datos de los medicos.   
+    /* Jose Caamal Ic
+        jcaamalic@gmail.com*/    
+    public int insertarDatosMedicos(int idMedicos, String nombres, String apellidos,
+            String cedula, String edad, String especialidades) {
+        logger.info("Usuario: Actividad: Se inicia insertarDatosMedicos()");
+        try {
+            String Query = "INSERT INTO tabla_medicos VALUES(?,?,?,?,?,?)";
+            PreparedStatement statement = Conexion.prepareStatement(Query);
+            statement.setInt(1,idMedicos );
+            statement.setString(2, nombres);
+            statement.setString(3, apellidos);
+            statement.setString(4,cedula);
+            statement.setInt(5,Integer.parseInt(edad));
+            statement.setString(6, especialidades);
+            logger.info(statement.toString());
+            statement.executeUpdate();
+            
+            return 1;
+        } catch (SQLException ex) {
+            logger.info(ex.getMessage());
+            return 0;
+        }
     }
 }

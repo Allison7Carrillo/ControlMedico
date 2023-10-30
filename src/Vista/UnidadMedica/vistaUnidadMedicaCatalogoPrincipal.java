@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * 
  */
-public class vistaUnidadMedicaEditar extends javax.swing.JDialog {
+public class vistaUnidadMedicaCatalogoPrincipal extends javax.swing.JDialog {
 
     /**
      * Creates new form vistaUnidadMedica
@@ -34,7 +34,7 @@ public class vistaUnidadMedicaEditar extends javax.swing.JDialog {
     
     controladorBD cb = new controladorBD();
     modeloDatos cd = new modeloDatos();
-    public vistaUnidadMedicaEditar(java.awt.Frame parent, boolean modal) {
+    public vistaUnidadMedicaCatalogoPrincipal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         /*Al inciar genero los numeros con que el paciente se va identificar*/
