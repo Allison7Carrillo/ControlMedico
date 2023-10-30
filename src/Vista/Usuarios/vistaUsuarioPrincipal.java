@@ -11,16 +11,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import org.apache.logging.log4j.LogManager;
 /**
  * Jose Luis Caamal Ic
  *  22/12/2022
  */
 public class vistaUsuarioPrincipal extends javax.swing.JFrame {
-
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(vistaUsuarioPrincipal.class);;
+   
     /**
      * Creates new form loginInMedico
      */
-    public String columna[] = new String[] {"#Usuario","Nombre Usuario","Contraseña","Correo","Tipo Usuario","Nombres","Apellidos"};
+    public String columna[] = new String[] {"#Usuario","Nombre Usuario","Contraseña","Email","TipoUsuario","Edad","Nombres","Apellidos"};
     controladorBD cc= new controladorBD();
     
     DefaultTableModel modeloUsuarios;
@@ -41,7 +43,7 @@ public class vistaUsuarioPrincipal extends javax.swing.JFrame {
                 }
             }
         });
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia el Panel de Usuarios()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia el Panel de Usuarios()");
         cc.closeConnection();
     }
     void actualizarTabla(int busqueda){

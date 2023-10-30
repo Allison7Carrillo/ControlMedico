@@ -4,17 +4,20 @@
  * and open the template in the editor.
  */
 package Vista;
+import Vista.UnidadMedica.vistaUnidadMedicaPrincipal;
 import Controlador.ControlLoogs;
 import Vista.Usuarios.vistaUsuarioPrincipal;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 /**
  * Jose Luis Caamal Ic
  * V3.0
  */
 public class vistaPrincipal extends javax.swing.JFrame {
-    ControlLoogs clog = new ControlLoogs();
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(vistaPrincipal.class);;
+   
     /**
      * Creates new form loginInMedico
      */
@@ -22,7 +25,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         this.setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_HORIZ);
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia el sistema control médico");
+        logger.info("Usuario: Actividad: Se inicia el sistema control médico");
     }
 
     /**
@@ -151,6 +154,11 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrar-sesion.png"))); // NOI18N
         btnSalir.setToolTipText("Cerrar Sesión");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btnUMedica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/consultor.png"))); // NOI18N
         btnUMedica.setToolTipText("Cliente Nuevo Ingreso");
@@ -371,25 +379,25 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnPacienteNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacienteNuevoActionPerformed
         // TODO add your handling code here:
         vistaRegistroPaciente vrp = new vistaRegistroPaciente();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la vistaRegistroPaciente()");
+        logger.info("Usuario: Actividad: Se inicia la vistaRegistroPaciente()");
         vrp.show();
         this.dispose();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se cierra la vistaRegistroPaciente()");
+        logger.info("Usuario: Actividad: Se cierra la vistaRegistroPaciente()");
     }//GEN-LAST:event_btnPacienteNuevoActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         // TODO add your handling code here:
         vistaReportes vrep = new vistaReportes();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la vistaReportes()");
+        logger.info("Usuario: Actividad: Se inicia la vistaReportes()");
         vrep.show();
         this.dispose();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se termina la vistaReportes()");
+        logger.info("Usuario: Actividad: Se termina la vistaReportes()");
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnControlMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnControlMedicoActionPerformed
         // TODO add your handling code here:
         vistaPacientes vp = new vistaPacientes();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la vistaPacientes()");
+        logger.info("Usuario: Actividad: Se inicia la vistaPacientes()");
         vp.show();
     }//GEN-LAST:event_btnControlMedicoActionPerformed
 
@@ -403,7 +411,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String datos = "0";
         vistaControlDatos vcd = new vistaControlDatos(datos,2);
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la vistaControlDatos()");
+        logger.info( "Usuario: Actividad: Se inicia la vistaControlDatos()");
         vcd.show();
     }//GEN-LAST:event_btnPacienteAfiliadoActionPerformed
 
@@ -437,6 +445,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConfiguracionActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        logger.info("Usuario: El sistema finalizo correctamente.");
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments

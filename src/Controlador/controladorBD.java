@@ -27,18 +27,18 @@ import javax.swing.JOptionPane;
 import java.util.Date;
 import java.util.Properties;
 import javax.swing.table.DefaultTableModel;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * 
  */
 public class controladorBD {
-
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(controladorBD.class);;
+   
     private static Connection Conexion; //Abro la conexión
-/*Inciamos el constructor*/
-
-     controladorLibrerias lv = new controladorLibrerias();
-     ControlLoogs clog = new ControlLoogs(); //Importo los logs
+    /*Inciamos el constructor*/
+    controladorLibrerias lv = new controladorLibrerias();
      
      public Connection openConnection() {
         
@@ -73,7 +73,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public boolean conexion(){
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia la conexion()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia la conexion()");
         try {
             String db_nam = "bdconsultorio";
             String use = "root";
@@ -96,7 +96,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void MySQLConnection(String user, String pass, String db_name) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia MySQLConnection()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia MySQLConnection()");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_name+"?characterEncoding=latin1&useConfigs=maxPerformance", user, pass);
@@ -112,7 +112,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void closeConnection() {
-         clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se cierra la conexión closeConnection()");
+         logger.info("SistemaLogger.log", "Usuario: Actividad: Se cierra la conexión closeConnection()");
         try {
             Conexion.close();
             System.out.println("Se ha finalizado la conexión con el servidor");
@@ -122,7 +122,7 @@ public class controladorBD {
     }
 
     public void createDB(String name) { //ProMujer
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createDB()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia createDB()");
         try {
             String Query = "CREATE DATABASE " + name;
             Statement st = Conexion.createStatement();
@@ -135,7 +135,7 @@ public class controladorBD {
     }
     
     public void createTableUser(String name) { // Name = Usuarios Provisional por que necesito tener la version completa 
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createTableUser()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia createTableUser()");
         try {
             String Query = "CREATE TABLE " + name + ""
                     + "(dni_user VARCHAR(25), usuario VARCHAR(50), password VARCHAR(50))";
@@ -148,7 +148,7 @@ public class controladorBD {
     }
 
     public void createTable(String name) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia createTable()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia createTable()");
        
         try {
             String Query = "CREATE TABLE " + name + ""
@@ -174,7 +174,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public int insertDataUsuarioUM(String table_name, int id_unidadmedica, int um_paciente, String um_folio,String um_medico, String um_consultorio) {
-         clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioUM()");
+         logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioUM()");
        
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
@@ -212,7 +212,7 @@ public class controladorBD {
 */
     public int insertDataUsuarioRecetas(String table_name, int rec_idreceta, int rec_idpaciente, int rec_idunidadmedica,String rec_descripcion, String rec_alergias, String rec_estatura,
             String rec_peso, String rec_presion, String rec_tiposangre, int rec_idcita ) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioRecetas()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioRecetas()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + rec_idreceta + "\", "
@@ -260,7 +260,7 @@ public class controladorBD {
 */
     public int insertDataUsuarioPAC(String table_name,int um_paciente, String pac_nombres, String pac_apellidopaterno, String pac_apellidomaterno, 
             int pac_edad, String pac_sexo,String pac_curp,String pac_lugar, String pac_direccion, String pac_numcasa, String pac_colonia, String pac_fechanac,  int id_unidadmedica ) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioPAC()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuarioPAC()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + um_paciente + "\", "
@@ -315,7 +315,7 @@ public class controladorBD {
             String ncita_servicio,
             String ncita_analisis, 
             String ncita_idunidadmedica, int id_recetas){
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertaCitas()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertaCitas()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + generaIdCita + "\", "
@@ -361,7 +361,7 @@ public class controladorBD {
 */
     public int updateDataUsuarioPAC(String table_name,int um_paciente, String pac_nombres, String pac_apellidopaterno, String pac_apellidomaterno, 
             int pac_edad, String pac_sexo,String pac_curp,String pac_lugar, String pac_direccion, String pac_numcasa, String pac_colonia, String pac_fechanac,  int id_unidadmedica ) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia updateDataUsuarioPAC()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia updateDataUsuarioPAC()");
         try {
             //int response;
             String sql = ("UPDATE  " + table_name  + " "
@@ -399,7 +399,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public int modifDataUsuarioPAC(String table_name, int id_unidadmedica, int um_paciente, String um_folio,String um_medico, String um_consultorio) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia modifDataUsuarioPAC()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia modifDataUsuarioPAC()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + id_unidadmedica + "\", "
@@ -429,7 +429,7 @@ public class controladorBD {
     ----------------------------------------------------------------------------------
 */
     public void insertDataUsuario(String table_name, String dni_user, String usuario, String password) {
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuario()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDataUsuario()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + dni_user + "\", "
@@ -456,7 +456,7 @@ public class controladorBD {
 */ 
 public Object[] selectLlenaTabla(){
      Object llenaTabla[] = null;
-    ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia selectLlenaTabla()");
+    logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia selectLlenaTabla()");
     try {
             String Query = "SELECT * FROM bdconsultorio.tabla_pacientes;";
             Statement st = Conexion.createStatement();
@@ -503,7 +503,7 @@ public Object[] selectLlenaTabla(){
             Double precio, String tieneCasa, String rentaCasa, String tieneCoche, String recomendadoPor, String grupo, 
             String usuario, String password, String fechaRegistro) {
         Date fechaNacAux = null;
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDatosUsuario()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertDatosUsuario()");
         //Convierto String a Date  JLCI 08/07/2018
         //lv = new LibreriasValidacion();
         fechaNacAux = lv.convertirDatos(fechaNac, fechaNacAux); //Guardo Fecha Nacimiento JLCI 08/07/2018
@@ -542,7 +542,7 @@ public Object[] selectLlenaTabla(){
     }
  /*Ejemplo:*/   
     public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertData()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertData()");
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
                     + "\"" + ID + "\", "
@@ -562,7 +562,7 @@ public Object[] selectLlenaTabla(){
     
 
     public void getValues(String table_name) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia getValues()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia getValues()");
         try {
             String Query = "SELECT * FROM " + table_name;
             Statement st = Conexion.createStatement();
@@ -591,7 +591,7 @@ public Object[] selectLlenaTabla(){
     ----------------------------------------------------------------------------------
 */
     public boolean ConsultaUser(String table_name, String dni_user, String password) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ConsultaUser()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia ConsultaUser()");
         boolean userfind = false;
         String Usuario1 = "";
         String Pass1 = "";
@@ -626,7 +626,7 @@ public Object[] selectLlenaTabla(){
     }
 
     public void deleteRecord(String table_name, String ID) {
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
         try {
             String Query = "DELETE FROM " + table_name + " WHERE ID = \"" + ID + "\"";
             Statement st = Conexion.createStatement();
@@ -643,12 +643,12 @@ public Object[] selectLlenaTabla(){
         int resultado = 0;
             
           String sql= "select * from tabla_usuarios where username=? and password=? ";
-          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+sql);
+          logger.info("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+sql);
           
           PreparedStatement st = Conexion.prepareStatement(sql);
           st.setString(1, user);
           st.setString(2,password);
-          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+st.toString());
+          logger.info("SistemaLogger.log", "Usuario: Actividad: Se Ejecuta la consulta: "+st.toString());
           ResultSet rs= st.executeQuery();
           
            while(rs.next()){
@@ -683,7 +683,7 @@ public Object[] selectLlenaTabla(){
     
     public int insertarDatosUsuario(int dni_user, String usuario, String password,String email,  
             int tipoRol, int edad, String nombres, String apellidos, String direccion) {
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia insertarDatosUsuario()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia insertarDatosUsuario()");
         try {
             String Query = "INSERT INTO bdconsultorio.tabla_usuarios VALUES(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = Conexion.prepareStatement(Query);
@@ -709,7 +709,7 @@ public Object[] selectLlenaTabla(){
     
     public int editUsers(int dni_user, String usuario, String password,String email,  
             int tipoRol, int edad, String nombres, String apellidos, String direccion) {
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia editUsers()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia editUsers()");
         try {
             String Query = "UPDATE tabla_usuarios"
                     + " SET username = ?, email = ?, password = ?, type_user = ?, age = ?,"
@@ -737,7 +737,7 @@ public Object[] selectLlenaTabla(){
     @id_user
     */
     public modeloUsuario getDataUser(int id_user){
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia getDataUser()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia getDataUser()");
         modeloUsuario mUser = new modeloUsuario();
         try{
             String Sql = "SELECT * FROM tabla_usuarios where id_usuario = ?;";
@@ -772,7 +772,7 @@ public Object[] selectLlenaTabla(){
     */
     public int deleteUser(int id_user){
         int resp = 0;
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia deleteRecord()");
         try {
             String Query = "DELETE FROM tabla_usuarios WHERE id_usuario = \"" + id_user + "\"";
             Statement st = Conexion.createStatement();
@@ -791,7 +791,7 @@ public Object[] selectLlenaTabla(){
     @id_user
     */
     public DefaultTableModel modeloUsuarios(String columna[], String dato){
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia busqueda modeloUsuarios()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia busqueda modeloUsuarios()");
         DefaultTableModel modeloUsuarios = new DefaultTableModel(null, columna);
         try{
             String Sql = "SELECT * FROM tabla_usuarios where username LIKE '%"+dato+"%' or email LIKE '%"+dato+"%';";
@@ -828,7 +828,7 @@ public Object[] selectLlenaTabla(){
           PreparedStatement st = Conexion.prepareStatement(sql);
           st.setInt(1, idPaciente);
           st.setInt(2, idPaciente);
-          ControlLoogs.escribirLog("SistemaLogger.log", "Paciente: Actividad: Se Ejecuta la consulta: "+st.toString());
+          logger.info("SistemaLogger.log", "Paciente: Actividad: Se Ejecuta la consulta: "+st.toString());
           ResultSet rs= st.executeQuery();
           
            while(rs.next()){

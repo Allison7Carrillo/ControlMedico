@@ -8,6 +8,7 @@ package Vista;
 import Controlador.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -20,10 +21,11 @@ public class vistaReportes extends javax.swing.JFrame {
      */
     /*Obtenemos el controlador de reportes en PDF*/
     contraldorReporteTabla ct = new contraldorReporteTabla();
-    ControlLoogs clog = new ControlLoogs();
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(vistaReportes.class);;
+   
     public vistaReportes() {
         initComponents();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia el constructor sistema vistaReportes()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia el constructor sistema vistaReportes()");
     }
 
     /**
@@ -381,9 +383,9 @@ public class vistaReportes extends javax.swing.JFrame {
         // TODO add your handling code here:
         vistaPrincipal vp = new vistaPrincipal();
         vp.show();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se retorna el metodo vistaPrincipal()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se retorna el metodo vistaPrincipal()");
         this.dispose();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se cierra el metodo vistaReportes()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se cierra el metodo vistaReportes()");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

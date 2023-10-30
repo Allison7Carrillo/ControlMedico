@@ -32,16 +32,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author joseluis.caamal
  */
 public class contraldorReporteTabla { 
-    ControlLoogs clog = new ControlLoogs(); //Importo los logs
+   private static final Logger logger = LogManager.getLogger(contraldorReporteTabla.class);;
+   //Importo los logs
    //private  Font fuenteNegra10 = new Font(Font.getFamily(""), 10, Font.BOLD, Color.BLACK);
    controladorBD cc= new controladorBD();
    public void crearPDF(int TipoArchivo) throws Exception {
-       clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia CreadorReportes()"+TipoArchivo);
+      logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia CreadorReportes()"+TipoArchivo);
       /*Leo el log en caso de que quiera imprimirlo :D*/
       String cadena;
       String archivo = "SistemaLogger.log";
@@ -91,7 +94,7 @@ public class contraldorReporteTabla {
           break;
           
       }
-      clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se nombra y obtiene consulta para el reporte"); 
+      logger.info("SistemaLogger.log", "Usuario: Actividad: Se nombra y obtiene consulta para el reporte"); 
       Document document = new Document();
 //      PdfWriter writer = new PdfWriter(dest);       
          
@@ -293,7 +296,7 @@ public class contraldorReporteTabla {
       b.close();
       // Closing the document       
       document.close();
-      clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se Crea el Reporte con éxito"); 
+      logger.info("SistemaLogger.log", "Usuario: Actividad: Se Crea el Reporte con éxito"); 
       System.out.println("Table created successfully..");
       
    }

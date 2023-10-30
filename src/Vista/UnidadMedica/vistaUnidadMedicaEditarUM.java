@@ -1,19 +1,24 @@
+package Vista.UnidadMedica;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+
 
 import Controlador.controladorBD;
 import Modelo.modeloDatos;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * 
  */
-public class vistaUnidadMedica extends javax.swing.JDialog {
+public class vistaUnidadMedicaEditarUM extends javax.swing.JDialog {
 
     /**
      * Creates new form vistaUnidadMedica
@@ -29,7 +34,7 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
     
     controladorBD cb = new controladorBD();
     modeloDatos cd = new modeloDatos();
-    public vistaUnidadMedica(java.awt.Frame parent, boolean modal) {
+    public vistaUnidadMedicaEditarUM(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         /*Al inciar genero los numeros con que el paciente se va identificar*/
@@ -43,9 +48,6 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         //cd.setUm_folio(Integer.toString(random13));
         //cd.setUm_seguro(Integer.toString(random12));
         //cd.setId_unidadmedica(random11);
-        um_foliobd.setText(Integer.toString(random13));
-        um_pacientebd.setText(Integer.toString(random1));
-        um_segurobd.setText(Integer.toString(random12));
         um_idumedidabd.setText(Integer.toString(random11));
         auxModal = Integer.toString(random11);
         auxIdPac = Integer.toString(random1);
@@ -63,20 +65,18 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        um_pacientebd = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        um_foliobd = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        um_segurobd = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         um_idumedidabd = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        um_doctorbd = new javax.swing.JComboBox<>();
-        um_consultoriobd = new javax.swing.JComboBox<>();
+        um_numero_consultorio = new javax.swing.JTextField();
+        um_edad = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        um_nombre_doctor1 = new javax.swing.JTextField();
+        um_doctor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -106,39 +106,15 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("Número de paciente:");
-
-        um_pacientebd.setEditable(false);
-        um_pacientebd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        um_pacientebd.setText("bdfhthfthfhj");
-        um_pacientebd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                um_pacientebdActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel12.setText("Número de Folio:");
-
-        um_foliobd.setEditable(false);
-        um_foliobd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("Número de Seguro:");
-
-        um_segurobd.setEditable(false);
-        um_segurobd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel14.setText("Doctor:");
+        jLabel14.setText("Nombre Completo:");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setText("Consultorio:");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel16.setText("ID:");
+        jLabel16.setText("ID_Unidad_Médica:");
 
         um_idumedidabd.setEditable(false);
         um_idumedidabd.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
@@ -146,7 +122,7 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         jButton1.setBackground(new java.awt.Color(0, 51, 153));
         jButton1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/correc.png"))); // NOI18N
-        jButton1.setText("Guardar");
+        jButton1.setText("Actualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -164,12 +140,20 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
             }
         });
 
-        um_doctorbd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        um_doctorbd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Juan Guillermo Gonzalez", "Jose Luis Caamal Ic" }));
+        um_numero_consultorio.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
 
-        um_consultoriobd.setEditable(true);
-        um_consultoriobd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        um_consultoriobd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
+        um_edad.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setText("Edad:");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setText("Especialidad:");
+
+        um_nombre_doctor1.setEditable(false);
+        um_nombre_doctor1.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
+
+        um_doctor.setEditable(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,75 +161,66 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(26, 26, 26)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(um_pacientebd, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(um_foliobd)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel15))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(um_doctorbd, 0, 300, Short.MAX_VALUE)
-                                        .addComponent(um_segurobd))
-                                    .addComponent(um_consultoriobd, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(123, 123, 123)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(66, 66, 66)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel17))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(um_numero_consultorio, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(um_doctor, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(um_edad, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(um_nombre_doctor1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(181, 181, 181)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(97, 97, 97)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11)
-                    .addComponent(um_pacientebd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(um_foliobd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(um_segurobd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel18)
+                            .addComponent(um_nombre_doctor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(um_doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(um_doctorbd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(um_edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
+                    .addComponent(um_numero_consultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(um_consultoriobd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(114, 114, 114)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 201, Short.MAX_VALUE))
+                    .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 98, 98)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 305, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -268,6 +243,7 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         /*Datos*/
+        cb.openConnection();
         Date ahora = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat formatoTiempo = new SimpleDateFormat("hh:mm:ss");
@@ -279,55 +255,16 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         System.out.println("formato de fecha " + formatoFecha.toPattern() + " valor: " + fechaFormateada);
         System.out.println("formato de fecha " + formatoTiempo.toPattern() + " valor: " + fechaFormatoTiempo);
         /**/
-        cb.MySQLConnection("root", "SAKAI", "bdconsultorio"); /*Abrimos conexión*/
-            auxCase = um_pacientebd.getText();
-            //cd.setUm_consultorio((String) um_consultoriobd.getSelectedItem());
-            String umConsultorio = (String) um_consultoriobd.getSelectedItem();
-            //cd.setUm_folio(um_foliobd.getText());
-            String umFolio = um_foliobd.getText();
-            //cd.setUm_medico((String) um_doctorbd.getSelectedItem());
-            String umMedico = (String) um_doctorbd.getSelectedItem();
-            //cd.setUm_paciente(Integer.parseInt(auxCase));
-            int umPaciente = Integer.parseInt(auxCase);
-            System.out.println(""+auxCase);
-            System.out.println(""+(String) um_consultoriobd.getSelectedItem());
-            System.out.println(""+um_foliobd.getText());
-            System.out.println(""+Integer.parseInt(auxCase));
-            System.out.println(""+(String) um_doctorbd.getSelectedItem());
-            //Validamos
-            //insertDataUsuarioUM
-            validaBD = cb.insertDataUsuarioUM("tabla_unidadmedica",random11, random1,umFolio,umMedico,umConsultorio);
-            if(validaBD == 1){
-                
-                System.out.println("Proceso de guardado de Usuario de Unidad Médica fue correcto");
-                validaBD = cb.insertDataUsuarioPAC("tabla_pacientes", random1, "", "", "", 0, "", "", "", "", "", "", fechaFormateada, random11);
-                if(validaBD == 1){
-                    System.out.println("Proceso de guardado de Usuario de Unidad Médica fue correcto");
-                }
-                else{
-                    System.out.println("Proceso de guardado de Usuario de PAC fue ERRONEO");
-                }
-                
-            }
-            else{
-                System.out.println("Proceso de guardado de Usuario de Unidad Médica fue erroneo");
-            }
-            
-            
         cb.closeConnection(); /*Cerramos conexión*/
         this.setVisible(false);
-        vistaRegistroPaciente vrp = new vistaRegistroPaciente(true,auxModal,auxIdPac);
-        vrp.show();
+        //vistaRegistroPaciente vrp = new vistaRegistroPaciente(true,auxModal,auxIdPac);
+        //vrp.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void um_pacientebdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_um_pacientebdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_um_pacientebdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,20 +311,18 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jButton1;
     public static javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public static javax.swing.JComboBox<String> um_consultoriobd;
-    public static javax.swing.JComboBox<String> um_doctorbd;
-    public static javax.swing.JTextField um_foliobd;
+    private javax.swing.JComboBox<String> um_doctor;
+    public static javax.swing.JTextField um_edad;
     public static javax.swing.JTextField um_idumedidabd;
-    public static javax.swing.JTextField um_pacientebd;
-    public static javax.swing.JTextField um_segurobd;
+    public static javax.swing.JTextField um_nombre_doctor1;
+    public static javax.swing.JTextField um_numero_consultorio;
     // End of variables declaration//GEN-END:variables
 }

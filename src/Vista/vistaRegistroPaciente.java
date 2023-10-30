@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Vista.UnidadMedica.vistaUnidadMedica;
 import Controlador.controladorBD;
 import Modelo.modeloDatos;
 import java.awt.Dimension;
@@ -514,7 +515,7 @@ public class vistaRegistroPaciente extends javax.swing.JFrame {
             fechaFormateada = formatoFecha.format(pac_fecha.getDate());
             fechaFormatoTiempo = formatoTiempo.format(pac_fecha.getDate());
             System.out.println("FechaIngresada"+fechaFormateada);
-             cb.MySQLConnection("root", "SAKAI", "bdconsultorio"); /*Abrimos conexión*/
+             cb.openConnection(); /*Abrimos conexión*/
              cd.setId_pacientebd(idUMedica); /*Creamos un número aleatorio para el id del paciente*/
              cd.setPac_nombresbd(pac_tipodesangre.getText()); //pac_nombresbd = pac_nombres.getText();
              cd.setPac_apellidopaternobd(pac_paterno.getText());//pac_apellidopaternobd = pac_materno.getText();

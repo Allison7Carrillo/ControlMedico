@@ -11,49 +11,52 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import org.apache.logging.log4j.LogManager;
 /**
- *
- * 
+ * Inicio principal del Sistema de Control Médico
+ *  Jose Luis Caamal Ic
+ *  jcaamalic@gmail.com
+ *  29/10/2023
  */
 public class loginInMedico extends javax.swing.JFrame {
 
     /**
      * Creates new form loginInMedico
      */
-    ControlLoogs clog = new ControlLoogs(); //Importo los logs
-//    String User_Public ="admin";
-//    String Password="admin";
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(loginInMedico.class);;
+   
     controladorBD cc= new controladorBD();
     controladorLibrerias clb = new controladorLibrerias();
     
     public loginInMedico() {
         initComponents();
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");
+        logger.info("Usuario: Actividad: Se inicia logInMedico()");
     }
      public void ValidarAcceso(){
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+        logger.info("Usuario: Actividad: Se inicia ValidarAcceso()");
         int resultado=0;
         try {
           cc.openConnection();
           String usuario=jTextNombre.getText().trim();
           String pass=String.valueOf(jPasswordField1.getPassword()).trim();
-          ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ingresa: usuario"+usuario);
+          logger.info("Usuario: Actividad: Se inicia ingresa: usuario"+usuario);
           
           if(( !usuario.isEmpty() || !usuario.equals("")) &&  ( !pass.isEmpty() || !pass.equals(""))) {
             pass = clb.encrypt(pass);// DesEncripta para validar la contraseña
             //pass = clb.decrypt(pass);// DesEncripta para validar la contraseña
             resultado = cc.validarInicioDeSesion(usuario,pass);
+            logger.info("Usuario: Actividad: Se inicia sesión por: "+usuario);
+          
           }else{
-              textoError.setText("No existe información del usuario para el inicio de sesión");
+              textoError.setText("Ingresa información del usuario para el inicio de sesión");
+              logger.info("Usuario: Ingresa información del usuario para el inicio de sesión");
+          
               resultado = 0;
           }
           cc.closeConnection();
-//         else{
-//            System.out.println("Error en el acceso, vuelva a intentarlo");
-//            JOptionPane.showMessageDialog(null,"Error en el acceso, vuelva a intentarlo:"+usuario);
-//          }
+          
           if(resultado==1){
-                ControlLoogs.escribirLog("SistemaLogger.log","Bienvenido al sistema");
+                logger.info("Bienvenido al sistema");
                 textoError.setText("Bienvenido al sistema: "+usuario);
                 vistaPrincipal form = new vistaPrincipal();
                 form.show(true);
@@ -61,9 +64,10 @@ public class loginInMedico extends javax.swing.JFrame {
             }else{
                 //JOptionPane.showMessageDialog(null, "No se puede iniciar sesión:"+usuario);
                 textoError.setText("No se puede iniciar sesión con el usuario:"+usuario);
-                ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: No se puede iniciar sesión con el usuario:"+usuario);
+                logger.info("Usuario: Actividad: No se puede iniciar sesión con el usuario:"+usuario);
             }
         } catch (SQLException e) {
+            logger.info("Ocurrio un error: " +e.getMessage());
             JOptionPane.showMessageDialog(null,"Error en el acceso, vuelva a intentarlo" + e.getMessage());
         }
         
@@ -210,7 +214,7 @@ public class loginInMedico extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+        logger.info("Usuario: Actividad: Se inicia ValidarAcceso()");
         ValidarAcceso();
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -218,7 +222,7 @@ public class loginInMedico extends javax.swing.JFrame {
     private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()");
+            logger.info("Usuario: Actividad: Se inicia ValidarAcceso()");
             ValidarAcceso();
         }
     }//GEN-LAST:event_jPasswordField1KeyPressed
@@ -226,7 +230,7 @@ public class loginInMedico extends javax.swing.JFrame {
     private void jTextNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNombreKeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia ValidarAcceso()"); 
+            logger.info("Usuario: Actividad: Se inicia ValidarAcceso()"); 
             ValidarAcceso();
         }
         

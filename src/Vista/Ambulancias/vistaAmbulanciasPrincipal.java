@@ -12,18 +12,20 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import org.apache.logging.log4j.LogManager;
 /**
  *
  * 
  */
 public class vistaAmbulanciasPrincipal extends javax.swing.JFrame {
 
-    ControlLoogs clog = new ControlLoogs(); //Importo los logs
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(vistaAmbulanciasPrincipal.class);;
+   
     controladorBD cc= new controladorBD();
     Connection con=cc.openConnection();
     public vistaAmbulanciasPrincipal() {
         initComponents();
-        ControlLoogs.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia logInMedico()");
     }
     /**
      * This method is called from within the constructor to initialize the form.

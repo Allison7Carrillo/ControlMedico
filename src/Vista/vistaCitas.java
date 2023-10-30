@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -23,7 +24,8 @@ public class vistaCitas extends javax.swing.JFrame {
      * Creates new form loginInMedico
      * pac_paciente
      */
-    ControlLoogs clog = new ControlLoogs();
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(vistaCitas.class);;
+   
     DefaultTableModel modeloTablaCitas;
     controladorBD cb = new controladorBD();
     public String columna[];
@@ -103,7 +105,7 @@ public class vistaCitas extends javax.swing.JFrame {
                  //   "SELECT dni_pago,usuario,fecha_pago,total,saldoActual FROM tabla_pagos";
                 "SELECT cm_idcita,cm_idpaciente,cm_idunidadmedica,cm_idfecha,cm_fechahora,cm_servicio,cm_analisispac,cm_idrecetas FROM bdconsultorio.tabla_citas where cm_idpaciente = '"+busquedaFiltroSF+"'";// or id_paciente = '"+busquedaFiltroSF+"'";    
              System.out.println("Contenido: "+Sql);
-             clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se obtiene "+Sql);
+             logger.info("SistemaLogger.log", "Usuario: Actividad: Se obtiene "+Sql);
             
 //            SELECT dni_datos, nombres, apellidos,fecha_nac, telefonocel, tabla_grupo.id_grupo, 
 //            tabla_grupo.nombre_encargado  FROM tabla_datosusuarios LEFT JOIN tabla_grupo ON tabla_datosusuarios.grupo = tabla_grupo.id_grupo where tabla_datosusuarios.grupo = '3'
@@ -120,10 +122,10 @@ public class vistaCitas extends javax.swing.JFrame {
                 }
                 modeloTablaCitas.addRow(objDatos);
             }
-            clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se obtiene "+objDatos.toString());
+            logger.info("SistemaLogger.log", "Usuario: Actividad: Se obtiene "+objDatos.toString());
         }
         catch(SQLException ex){
-            clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Ocurrio un Error "+ex.toString());
+            logger.info("SistemaLogger.log", "Usuario: Actividad: Ocurrio un Error "+ex.toString());
         }
     }
 
@@ -467,7 +469,7 @@ public class vistaCitas extends javax.swing.JFrame {
 //        String vcita_nombreMedico = "";
         vistaNuevaCita vnc = new vistaNuevaCita(this, true, vcita_pacpaciente, vcita_nombrePaciente ,vcita_nombreIDUnidadMedica, vcita_nombreFolio, vcita_nombreConsultorio, vcita_nombreMedico);
         vnc.show();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se ejecuta botonNuevaCitaActionPerformed()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se ejecuta botonNuevaCitaActionPerformed()");
     }//GEN-LAST:event_botonNuevaCitaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -480,7 +482,7 @@ public class vistaCitas extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se ejecuta jButton2ActionPerformed()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se ejecuta jButton2ActionPerformed()");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -496,7 +498,7 @@ public class vistaCitas extends javax.swing.JFrame {
         //cime_idcita = vici_gectidcita.getText();
         vistaRecetasMedicas vrcm = new vistaRecetasMedicas(vcita_pacpaciente,vcita_nombrePaciente,vcita_nombreIDUnidadMedica,cime_idcita, cime_idreceta);
         vrcm.show();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia vistaRecetasMedicas()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia vistaRecetasMedicas()");
         
     }//GEN-LAST:event_jButton3ActionPerformed
     
@@ -504,7 +506,7 @@ public class vistaCitas extends javax.swing.JFrame {
         // TODO add your handling code here:
         vistaRecetas vc = new vistaRecetas(vcita_nombrePaciente,vcita_pacpaciente,vcita_nombreMedico,vcita_nombreFolio,cime_idcita,cime_idreceta);
         vc.show();
-        clog.escribirLog("SistemaLogger.log", "Usuario: Actividad: Se inicia vistaRecetas()");
+        logger.info("SistemaLogger.log", "Usuario: Actividad: Se inicia vistaRecetas()");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

@@ -1,9 +1,11 @@
+package Vista.UnidadMedica;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+
 
 import Controlador.controladorBD;
 import Modelo.modeloDatos;
@@ -138,10 +140,8 @@ public class vistaUnidadMedicaPrincipal extends javax.swing.JDialog {
             }
         });
 
-        um_numero_consultorio.setEditable(false);
         um_numero_consultorio.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
 
-        um_edad.setEditable(false);
         um_edad.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -153,7 +153,7 @@ public class vistaUnidadMedicaPrincipal extends javax.swing.JDialog {
         um_nombre_doctor1.setEditable(false);
         um_nombre_doctor1.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
 
-        um_doctor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        um_doctor.setEditable(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,20 +165,20 @@ public class vistaUnidadMedicaPrincipal extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                                .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(um_idumedidabd, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(jLabel15)
                                     .addComponent(jLabel17))
                                 .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(um_numero_consultorio, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(um_edad, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(um_doctor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(um_doctor, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(um_edad, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(60, 60, 60)
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -257,8 +257,8 @@ public class vistaUnidadMedicaPrincipal extends javax.swing.JDialog {
         /**/
         cb.closeConnection(); /*Cerramos conexión*/
         this.setVisible(false);
-        vistaRegistroPaciente vrp = new vistaRegistroPaciente(true,auxModal,auxIdPac);
-        vrp.show();
+        //vistaRegistroPaciente vrp = new vistaRegistroPaciente(true,auxModal,auxIdPac);
+        //vrp.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -322,7 +322,7 @@ public class vistaUnidadMedicaPrincipal extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> um_doctor;
     public static javax.swing.JTextField um_edad;
     public static javax.swing.JTextField um_idumedidabd;
-    private javax.swing.JTextField um_nombre_doctor1;
+    public static javax.swing.JTextField um_nombre_doctor1;
     public static javax.swing.JTextField um_numero_consultorio;
     // End of variables declaration//GEN-END:variables
 }
