@@ -9,6 +9,7 @@ import Controlador.controladorBD;
 import Modelo.modeloDatos;
 import Vista.vistaRegistroPaciente;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 /**
  *
@@ -50,6 +51,13 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         um_idumedidabd.setText(Integer.toString(random11));
         auxModal = Integer.toString(random11);
         auxIdPac = Integer.toString(random1);
+        cb.openConnection();
+        ArrayList<String> listaMedicos = cb.obtenerListaMedicos();
+        cb.closeConnection();
+        listaMedicos.forEach((listaMedico) -> {
+            um_doctorbd.addItem(listaMedico);
+        });
+        
     }
 
     /**
@@ -166,7 +174,6 @@ public class vistaUnidadMedica extends javax.swing.JDialog {
         });
 
         um_doctorbd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        um_doctorbd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Juan Guillermo Gonzalez", "Jose Luis Caamal Ic" }));
 
         um_consultoriobd.setEditable(true);
         um_consultoriobd.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N

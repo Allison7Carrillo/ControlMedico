@@ -20,11 +20,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
@@ -820,5 +822,26 @@ public Object[] selectLlenaTabla(){
             logger.info(ex.getMessage());
             return 0;
         }
+    }
+    
+    public ArrayList<String> obtenerListaMedicos(){
+        logger.info("Ejecutando obtenerListaMedicos");
+        ArrayList<String> listaMedicos = new ArrayList<>();
+        try{
+            String Sql = "SELECT * FROM tabla_medicos";
+            System.out.println("Contenido: "+Sql);
+  
+            PreparedStatement us = Conexion.prepareStatement(Sql);
+            
+            ResultSet res = us.executeQuery();
+            while(res.next()){
+                listaMedicos.add(res.getString("idMedicos")+" "+res.getString("nombres")+" "+res.getString("apellidos"));
+            }
+        }
+        catch(SQLException ex){
+            System.out.println("Exception: "+ ex.getMessage());
+            logger.info(ex.getMessage());
+        }
+        return listaMedicos;
     }
 }
