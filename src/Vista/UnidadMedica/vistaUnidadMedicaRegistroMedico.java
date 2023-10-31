@@ -84,6 +84,9 @@ public class vistaUnidadMedicaRegistroMedico extends javax.swing.JDialog {
         campoNombres = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registro medico");
+        setAlwaysOnTop(true);
+        setLocation(new java.awt.Point(500, 200));
         setModal(true);
 
         panelCatalogoMedico.setBackground(new java.awt.Color(255, 255, 255));
@@ -233,6 +236,8 @@ public class vistaUnidadMedicaRegistroMedico extends javax.swing.JDialog {
            logger.info("La operación fue exitosa.");
             JOptionPane.showMessageDialog(this,"El médico fue registrado correctamente.");
             this.dispose();
+            vistaUnidadMedicaCatalogo vumcp = new vistaUnidadMedicaCatalogo(null, rootPaneCheckingEnabled);
+            vumcp.show();
         }
         else{
             logger.info("La operación fallo, verifica el error.");
@@ -240,11 +245,14 @@ public class vistaUnidadMedicaRegistroMedico extends javax.swing.JDialog {
 
         }
         
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        vistaUnidadMedicaCatalogo vumcp = new vistaUnidadMedicaCatalogo(null, rootPaneCheckingEnabled);
+        vumcp.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void campoNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNombresActionPerformed

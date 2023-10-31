@@ -199,8 +199,10 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
 
     private void btnRegistrarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarMedicoActionPerformed
         // TODO add your handling code here:
+        this.dispose();
         vistaUnidadMedicaRegistroMedico vumrm = new vistaUnidadMedicaRegistroMedico(null, rootPaneCheckingEnabled);
         vumrm.show();
+        
     }//GEN-LAST:event_btnRegistrarMedicoActionPerformed
 
     /**

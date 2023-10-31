@@ -8,6 +8,7 @@ package Vista.Usuarios;
 import Controlador.controladorBD;
 import Controlador.controladorLibrerias;
 import Modelo.modeloUsuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -225,17 +226,21 @@ public class editUsuarios extends javax.swing.JDialog {
         int respExitosa = cbd.editUsers(idUsuario, campoName.getText().trim(), clb.encrypt(campoPassword.getText().trim()), 
         campoEmail.getText().trim(), campoRol.getSelectedIndex(), Integer.parseInt(campoEdad.getText().trim()),
         campoNombres.getText().trim(),campoApellidos.getText().trim(),campoDireccion.getText().trim());
-        dispose();
-        if(respExitosa == 1)
-            mensaje.setText("Datos actualizados de forma exitosa.");
-        else
-            mensaje.setText("Error actualizando los datos.");
         cbd.closeConnection();
+        
+        if(respExitosa == 1){
+            JOptionPane.showMessageDialog(this, "Datos actualizados de forma exitosa.");
+            this.dispose();
+        }   
+        else{
+            mensaje.setText("Error en el almacenamiento de datos, el nombre de usuario se encuentra en uso.");
+        }
+        this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-       dispose();
+       this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

@@ -9,6 +9,8 @@ import Controlador.controladorBD;
 import Controlador.controladorLibrerias;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.apache.logging.log4j.LogManager;
 /**
  *
  * @author joseluis.caamal
@@ -16,6 +18,8 @@ import java.util.logging.Logger;
 public class addUsuarios extends javax.swing.JDialog {
     controladorBD cbd = new controladorBD();
     controladorLibrerias clb = new controladorLibrerias();
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(addUsuarios.class);;
+
     /**
      * Creates new form addUsuarios
      */
@@ -206,19 +210,22 @@ public class addUsuarios extends javax.swing.JDialog {
                     campoEmail.getText().trim(), campoRol.getSelectedIndex(), Integer.parseInt(campoEdad.getText().trim()),
                     campoNombres.getText().trim(),campoApellidos.getText().trim(),campoDireccion.getText().trim());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info(ex.getMessage());
         }
-        dispose();
-        if(respExitosa == 1)
-            mensaje.setText("Datos almacenados de forma exitosa.");
-        else
-            mensaje.setText("Error en el almacenamiento de datos, el nombre de usuario se encuentra en uso.");
         cbd.closeConnection();
+        
+        if(respExitosa == 1){
+            JOptionPane.showMessageDialog(this, "Datos almacenados de forma exitosa.");
+            this.dispose();
+        }   
+        else{
+            mensaje.setText("Error en el almacenamiento de datos, el nombre de usuario se encuentra en uso.");
+        }
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-       dispose();
+       this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
