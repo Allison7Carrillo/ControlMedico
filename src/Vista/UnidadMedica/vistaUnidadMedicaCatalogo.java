@@ -70,6 +70,7 @@ public class vistaUnidadMedicaCatalogo extends javax.swing.JDialog {
         btnRegistrarMedico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         setModal(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
